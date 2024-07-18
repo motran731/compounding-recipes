@@ -1,25 +1,36 @@
+"use client";
+
 import { DarkThemeToggle } from "flowbite-react";
 import Navbar from "./Navbar";
 import { useState } from "react";
 
+interface Ingredient {
+  id: number;
+  quantity: number;
+  unit: string;
+  name: string;
+  added: boolean;
+}
+
 const initialItems = [
   {
     id: 1,
-    quanity: 40,
+    quantity: 40,
     unit: "ml",
     name: "Viscous Lidocaine 2%",
     added: false,
   },
-  { id: 2, quanity: 40, unit: "ml", name: "Maalox", added: false },
-  { id: 3, quanity: 40, unit: "ml", name: "Diphenhydramine", added: false },
+  { id: 2, quantity: 40, unit: "ml", name: "Maalox", added: false },
+  { id: 3, quantity: 40, unit: "ml", name: "Diphenhydramine", added: false },
 ];
 
 export default function Home() {
-  // const [items, setItems] = useState([initialItems]);
+  const [items, setItems] = useState(initialItems);
+
   return (
     <div>
       <Navbar />
-      <Ingredients items={initialItems} />
+      <IngredientList ingredients={initialItems} />
       {/* <main className="dark:bg-gray-00 flex min-h-screen items-center justify-center gap-2">
         <h1 className="text-2xl dark:text-white">Compounding Recipes</h1>
         <DarkThemeToggle />
@@ -28,7 +39,22 @@ export default function Home() {
   );
 }
 
-function Ingredients({ items }) {
+interface IngredientListProps {
+  ingredients: Array<Ingredient>;
+}
+
+function IngredientList(props: IngredientListProps) {
+  const [ingredients, setIngredients] = useState("");
+
+  function handleAdd(event) {
+    event.preventDefault();
+    console.log("iv been clicked");
+  }
+
+  function handleDelete() {
+    console.log("iv been deleted");
+  }
+
   return (
     <div className="container max-w-lg rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800">
       <h1 className="mb-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -38,9 +64,14 @@ function Ingredients({ items }) {
         <h5 className="mb-4 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           Ingredients
         </h5>
-        <input type="text" />
+        <input
+          type="text"
+          value={ingredients}
+          onChange={(event) => setIngredients(event.target.value)}
+        />
         <button
           type="button"
+          onClick={handleAdd}
           className="mb-2 me-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
         >
           {" "}
@@ -48,17 +79,19 @@ function Ingredients({ items }) {
         </button>
         <button
           type="button"
+          onClick={handleDelete}
           className="mb-2 me-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
         >
           ❌ Delete
         </button>
         <ul>
-          {items.map((item) => (
-            <li>
+          {props.ingredients.map((item: Ingredient) => (
+            <li key={item.id}>
               {" "}
-              {item.quanity} {item.unit} {item.name}
+              {item.quantity} {item.unit} {item.name}
             </li>
           ))}
+          <li>{ingredients}</li>
         </ul>
 
         <p></p>
@@ -84,9 +117,9 @@ function Ingredients({ items }) {
         >
           <path
             stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
             d="M1 5h12m0 0L9 1m4 4L9 9"
           />
         </svg>
