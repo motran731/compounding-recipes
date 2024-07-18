@@ -44,11 +44,15 @@ interface IngredientListProps {
 }
 
 function IngredientList(props: IngredientListProps) {
-  const [ingredients, setIngredients] = useState("");
+  const [quantity, setQuantity] = useState(0);
+  const [unit, setUnit] = useState("");
+  const [name, setName] = useState("");
 
   function handleAdd(event) {
     event.preventDefault();
-    console.log("iv been clicked");
+
+    const newIngredient = { quantity, unit, name, id: Date.now() };
+    console.log(newIngredient);
   }
 
   function handleDelete() {
@@ -60,15 +64,11 @@ function IngredientList(props: IngredientListProps) {
       <h1 className="mb-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
         Title : Magic Mouthwash
       </h1>
-      <div className="list">
+      <div className="form">
         <h5 className="mb-4 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           Ingredients
         </h5>
-        <input
-          type="text"
-          value={ingredients}
-          onChange={(event) => setIngredients(event.target.value)}
-        />
+        <input type="text" />
         <button
           type="button"
           onClick={handleAdd}
@@ -91,7 +91,7 @@ function IngredientList(props: IngredientListProps) {
               {item.quantity} {item.unit} {item.name}
             </li>
           ))}
-          <li>{ingredients}</li>
+          <li></li>
         </ul>
 
         <p></p>
