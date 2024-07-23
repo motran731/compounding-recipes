@@ -11,6 +11,10 @@ interface Ingredient {
   name: string;
 }
 
+interface Step {
+  id: number;
+  step: string;
+}
 const testItems = [
   {
     id: 1,
@@ -25,6 +29,9 @@ const testItems = [
 export default function Home() {
   const [items, setItems] = useState([]);
   const [title, setTitle] = useState("");
+  const [preparations, setPreparations] = useState([]);
+
+  //const [editMode, setEditMode] = useState(true);
 
   return (
     <div>
@@ -32,10 +39,20 @@ export default function Home() {
       <div className="container max-w-3xl rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800">
         <Title title={title} setTitle={setTitle} />
         <IngredientList ingredients={items} setItems={setItems} />
+        <PreparationSteps
+          preparations={preparations}
+          setPreparations={setPreparations}
+        />
       </div>
     </div>
   );
 }
+
+// interface Editprops{
+//   editMode: boolean;
+//   setEditMode: Function
+
+// }
 
 interface Titleprops {
   title: string;
@@ -208,34 +225,118 @@ function IngredientList(props: IngredientListProps) {
           </div>
         </form>
       </div>
-      {/* <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+    </div>
+  );
+}
+
+interface PreparationListProps {
+  preparations: Array<Step>;
+  setPreparations: Function;
+}
+function PreparationSteps(props: PreparationListProps) {
+  const [editSteps, setEditSteps] = useState(true);
+  const [step, setStep] = useState("");
+
+  function handleAddStep(event: any) {
+    event.preventDefault();
+    const newStep = { id: Date.now(), step };
+    console.log(newStep);
+
+    props.setPreparations([...props.preparations, newStep]);
+  }
+  function onSaveSteps() {
+    setEditSteps(false);
+  }
+
+  function onEditSteps() {
+    setEditSteps(true);
+  }
+
+  return (
+    <div className="form">
+      <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         Preparation
       </h5>
-      <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-        Here are the biggest enterprise technology acquisitions of 2021 so far,
-        in reverse chronological order.
-      </p>
-      <a
-        href="#"
-        className="inline-flex items-center rounded-lg bg-blue-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-      >
-        Read more
-        <svg
-          className="ms-2 h-3.5 w-3.5 rtl:rotate-180"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 14 10"
+
+      <div className="step-list">
+        <div className="flex flex-col gap-2">
+          {props.preparations.map((step: Step) => (
+            <div key={step.id} className="flex flex-row items-center gap-2">
+              {" "}
+              {step.step}
+              <button
+                type="button"
+                onClick={() => {
+                  handleAddStep(step.id);
+                }}
+                className="me-2rounded-full m-1 border border-gray-200 bg-white px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+              >
+                ❌
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <form>
+        <div className="mb-6 grid gap-6 md:grid-cols-5">
+          <div>
+            <label
+              htmlFor="step_input"
+              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Prep
+            </label>
+            <input
+              type="text"
+              id="step_input"
+              placeholder="Write steps out"
+              value={step}
+              onChange={(event) => setStep(event.target.value)}
+            />
+            <button
+              type="button"
+              onClick={handleAddStep}
+              className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+            >
+              {" "}
+              ➕ Add
+            </button>
+          </div>
+        </div>
+      </form>
+      {/* {!editSteps && (
+        <h1 className="mb-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-white"></h1>
+      )}
+      {editSteps && (
+        <input
+          type="text"
+          id="step_input"
+          placeholder="Write steps out"
+          value={step}
+          onChange={(event) => setStep(event.target.value)}
+        />
+      )}
+      {editSteps && (
+        <button
+          type="button"
+          onClick={onSaveSteps}
+          className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
         >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M1 5h12m0 0L9 1m4 4L9 9"
-          />
-        </svg>
-      </a> */}
+          {" "}
+          ✅ Save
+        </button>
+      )}
+      {!editSteps && (
+        <button
+          type="button"
+          onClick={onEditSteps}
+          className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+        >
+          {" "}
+          ✏️ Edit
+        </button>
+      )} */}
     </div>
   );
 }
