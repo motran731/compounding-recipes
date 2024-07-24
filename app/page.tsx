@@ -244,6 +244,16 @@ function PreparationSteps(props: PreparationListProps) {
 
     props.setPreparations([...props.preparations, newStep]);
   }
+
+  function handleDeleteStep(stepId: number) {
+    console.log("iv been deleted", stepId);
+    // Find the matching ingredient and remove from state
+    // setArtists(
+    //   artists.filter(a => a.id !== artist.id)
+    // );
+    props.setPreparations(props.preparations.filter((s) => s.id !== stepId));
+  }
+
   function onSaveSteps() {
     setEditSteps(false);
   }
@@ -253,12 +263,12 @@ function PreparationSteps(props: PreparationListProps) {
   }
 
   return (
-    <div className="form">
+    <div className="form ">
       <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         Preparation
       </h5>
 
-      <div className="step-list">
+      <div className="step-list ">
         <div className="flex flex-col gap-2">
           {props.preparations.map((step: Step) => (
             <div key={step.id} className="flex flex-row items-center gap-2">
@@ -267,7 +277,7 @@ function PreparationSteps(props: PreparationListProps) {
               <button
                 type="button"
                 onClick={() => {
-                  handleAddStep(step.id);
+                  handleDeleteStep(step.id);
                 }}
                 className="me-2rounded-full m-1 border border-gray-200 bg-white px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
               >
@@ -279,14 +289,14 @@ function PreparationSteps(props: PreparationListProps) {
       </div>
 
       <form>
-        <div className="mb-6 grid gap-6 md:grid-cols-5">
+        <div className="mb-6 flex gap-6 md:grid-rows-1">
           <div>
-            <label
+            {/* <label
               htmlFor="step_input"
               className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
             >
-              Prep
-            </label>
+              Add steps
+            </label> */}
             <input
               type="text"
               id="step_input"
