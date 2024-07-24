@@ -243,14 +243,10 @@ function PreparationSteps(props: PreparationListProps) {
     console.log(newStep);
 
     props.setPreparations([...props.preparations, newStep]);
+    setStep("");
   }
 
   function handleDeleteStep(stepId: number) {
-    console.log("iv been deleted", stepId);
-    // Find the matching ingredient and remove from state
-    // setArtists(
-    //   artists.filter(a => a.id !== artist.id)
-    // );
     props.setPreparations(props.preparations.filter((s) => s.id !== stepId));
   }
 
