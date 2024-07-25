@@ -31,8 +31,6 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [preparations, setPreparations] = useState([]);
 
-  //const [editMode, setEditMode] = useState(true);
-
   return (
     <div>
       <Navbar />
@@ -47,12 +45,6 @@ export default function Home() {
     </div>
   );
 }
-
-// interface Editprops{
-//   editMode: boolean;
-//   setEditMode: Function
-
-// }
 
 interface Titleprops {
   title: string;
@@ -127,6 +119,11 @@ function IngredientList(props: IngredientListProps) {
 
     // midori wins!!
     props.setItems([...props.ingredients, newIngredient]);
+
+    //resets to starting input
+    setQuantity(0);
+    setUnit("");
+    setName("");
   }
 
   function handleDelete(itemId: number) {
@@ -236,13 +233,18 @@ interface PreparationListProps {
 function PreparationSteps(props: PreparationListProps) {
   const [editSteps, setEditSteps] = useState(true);
   const [step, setStep] = useState("");
+  // const [count, setCount] = useState(0);
 
   function handleAddStep(event: any) {
     event.preventDefault();
+
+    if (!step) return;
+
     const newStep = { id: Date.now(), step };
     console.log(newStep);
-
+    // setCount(count + 1);
     props.setPreparations([...props.preparations, newStep]);
+
     setStep("");
   }
 
@@ -267,7 +269,7 @@ function PreparationSteps(props: PreparationListProps) {
       <div className="step-list ">
         <div className="flex flex-col gap-2">
           {props.preparations.map((step: Step) => (
-            <div key={step.id} className="flex flex-row items-center gap-2">
+            <div key={step.id} className="flex flex-row items-center gap-2 ">
               {" "}
               {step.step}
               <button
@@ -287,12 +289,6 @@ function PreparationSteps(props: PreparationListProps) {
       <form>
         <div className="mb-6 flex gap-6 md:grid-rows-1">
           <div>
-            {/* <label
-              htmlFor="step_input"
-              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Add steps
-            </label> */}
             <input
               type="text"
               id="step_input"
