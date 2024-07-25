@@ -54,6 +54,7 @@ function Title(props: Titleprops) {
   const [editMode, setEditMode] = useState(true);
 
   function onSave() {
+    if (!props.title) return;
     setEditMode(false);
   }
 
