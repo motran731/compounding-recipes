@@ -65,7 +65,7 @@ function Title(props: Titleprops) {
   return (
     <div className="title flex flex-row gap-2">
       {!editMode && (
-        <h1 className="mb-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+        <h1 className="mb-3 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
           {props.title}
         </h1>
       )}
@@ -269,9 +269,12 @@ function PreparationSteps(props: PreparationListProps) {
 
       <div className="step-list ">
         <div className="flex flex-col gap-2">
-          {props.preparations.map((step: Step) => (
+          {props.preparations.map((step: Step, index: number) => (
             <div key={step.id} className="flex flex-row items-center gap-2 ">
-              {" "}
+              {/* {index + 1}   */}
+              <div className="h-15 w-13  rounded-full bg-purple-700">
+                <h3>{index + 1}</h3>
+              </div>
               {step.step}
               <button
                 type="button"
