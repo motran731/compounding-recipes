@@ -41,6 +41,10 @@ export default function Home() {
           preparations={preparations}
           setPreparations={setPreparations}
         />
+        <AuxiliaryLabels />
+        <Storage />
+        <Expiration />
+        <SpecialNote />
       </div>
     </div>
   );
@@ -84,17 +88,16 @@ function Title(props: Titleprops) {
           onClick={onSave}
           className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
         >
-          {" "}
           ✅ Save
         </button>
       )}
+
       {!editMode && (
         <button
           type="button"
           onClick={onEdit}
           className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
         >
-          {" "}
           ✏️ Edit
         </button>
       )}
@@ -234,7 +237,6 @@ interface PreparationListProps {
 function PreparationSteps(props: PreparationListProps) {
   const [editSteps, setEditSteps] = useState(true);
   const [step, setStep] = useState("");
-  // const [count, setCount] = useState(0);
 
   function handleAddStep(event: any) {
     event.preventDefault();
@@ -243,7 +245,7 @@ function PreparationSteps(props: PreparationListProps) {
 
     const newStep = { id: Date.now(), step };
     console.log(newStep);
-    // setCount(count + 1);
+
     props.setPreparations([...props.preparations, newStep]);
 
     setStep("");
@@ -253,11 +255,13 @@ function PreparationSteps(props: PreparationListProps) {
     props.setPreparations(props.preparations.filter((s) => s.id !== stepId));
   }
 
-  function onSaveSteps() {
-    setEditSteps(false);
-  }
+  // function onSaveSteps() {
+  //   if (!props.preparations) return;
 
-  function onEditSteps() {
+  //   setEditSteps(false);
+  // }
+
+  function onEditSteps(stepId: number) {
     setEditSteps(true);
   }
 
@@ -271,11 +275,22 @@ function PreparationSteps(props: PreparationListProps) {
         <div className="flex flex-col gap-2">
           {props.preparations.map((step: Step, index: number) => (
             <div key={step.id} className="flex flex-row items-center gap-2 ">
-              {/* {index + 1}   */}
               <div className="h-15 w-13  rounded-full bg-purple-700">
                 <h3>{index + 1}</h3>
               </div>
+
               {step.step}
+
+              <button
+                type="button"
+                onClick={() => {
+                  onEditSteps(step.id);
+                }}
+                className="me-2rounded-full m-1 border border-gray-200 bg-white px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+              >
+                ✏️ Edit
+              </button>
+
               <button
                 type="button"
                 onClick={() => {
@@ -300,49 +315,56 @@ function PreparationSteps(props: PreparationListProps) {
               value={step}
               onChange={(event) => setStep(event.target.value)}
             />
+
             <button
               type="button"
               onClick={handleAddStep}
               className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
             >
-              {" "}
               ➕ Add
             </button>
           </div>
         </div>
       </form>
-      {/* {!editSteps && (
-        <h1 className="mb-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-white"></h1>
-      )}
-      {editSteps && (
-        <input
-          type="text"
-          id="step_input"
-          placeholder="Write steps out"
-          value={step}
-          onChange={(event) => setStep(event.target.value)}
-        />
-      )}
-      {editSteps && (
-        <button
-          type="button"
-          onClick={onSaveSteps}
-          className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-        >
-          {" "}
-          ✅ Save
-        </button>
-      )}
-      {!editSteps && (
-        <button
-          type="button"
-          onClick={onEditSteps}
-          className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-        >
-          {" "}
-          ✏️ Edit
-        </button>
-      )} */}
+    </div>
+  );
+}
+
+function AuxiliaryLabels() {
+  return (
+    <div>
+      <label>🏷️ Auxiliary Labels </label>
+      {/* <input type="text" /> */}
+      <select>
+        <option> Refridgerate </option>
+        <option> </option>
+      </select>
+    </div>
+  );
+}
+
+function Storage() {
+  return (
+    <div>
+      <label> 🏠 Storage Conditions</label>
+      <input type="text" />
+    </div>
+  );
+}
+
+function Expiration() {
+  return (
+    <div>
+      <label> ⌛️ Expiration Date </label>
+    </div>
+  );
+}
+
+function SpecialNote() {
+  return (
+    <div>
+      <label> 📝 Special Notes</label>
+      <input type="text" />
     </div>
   );
 }
