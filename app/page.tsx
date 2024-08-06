@@ -429,15 +429,13 @@ function AuxiliaryLabels() {
 
 function Storage() {
   return (
-    <div>
-      <label> </label>
-      {/* <Dropdown.Item onClick={() => alert('Settings!')}>Settings</Dropdown.Item> */}
-      <Dropdown label="🏠 Storage Conditions">
-        <Dropdown.Item> Refridgeration</Dropdown.Item>
-
-        <Dropdown.Item> Room Temperature</Dropdown.Item>
-        <Dropdown.Item> Other </Dropdown.Item>
-      </Dropdown>
+    <div className="flex items-center gap-2 py-6">
+      <label>🏠 Storage Conditions</label>
+      <select>
+        <option> Refrigeration </option>
+        <option> Room Temperature </option>
+        <option> Other</option>
+      </select>
     </div>
   );
 }
