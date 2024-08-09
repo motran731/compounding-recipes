@@ -15,6 +15,16 @@ interface Step {
   id: number;
   step: string;
 }
+
+interface Labels {
+  id: number;
+  label: string;
+}
+
+interface LabelsListProp {
+  labels: Array<Labels>;
+  setLabels: Function;
+}
 const testItems = [
   {
     id: 1,
@@ -26,6 +36,73 @@ const testItems = [
   { id: 3, quantity: 40, unit: "ml", name: "Diphenhydramine" },
 ];
 
+const labels = [
+  {
+    id: 1,
+    label: "Do not chew or crush",
+  },
+  {
+    id: 2,
+    label: "Swallow whole",
+  },
+  {
+    id: 3,
+    label: "Take with food",
+  },
+  {
+    id: 4,
+    label: "For rectal use only",
+  },
+  {
+    id: 5,
+    label: "Shake well before use",
+  },
+  {
+    id: 6,
+    label: "For external use only",
+  },
+  {
+    id: 7,
+    label: "May cause drowsiness",
+  },
+  {
+    id: 8,
+    label: "Protect from sunlight",
+  },
+  {
+    id: 9,
+    label: "Take on an empty stomach",
+  },
+  {
+    id: 10,
+    label: "Keep refrigerated",
+  },
+  {
+    id: 11,
+    label: "For the eye only",
+  },
+  {
+    id: 12,
+    label: "For the ear only",
+  },
+  { id: 13, label: "May cause urine discoloration" },
+];
+
+const label1 = [
+  "Do not chew or crush",
+  "Swallow whole",
+  "Take with food",
+  "For rectal use only",
+  "Shake well before use",
+  "For external use only",
+  "May cause drowsiness",
+  "Protect from sunlight",
+  "Take on an empty stomach",
+  "Keep refrigerated",
+  "For the eye only",
+  "For the ear only",
+  "May cause urine discoloration",
+];
 export default function Home() {
   const [items, setItems] = useState([]);
   const [title, setTitle] = useState("");
@@ -332,12 +409,13 @@ function PreparationSteps(props: PreparationListProps) {
 
 function AuxiliaryLabels() {
   return (
-    <div>
+    <div className="flex items-center gap-2 py-6">
       <label>🏷️ Auxiliary Labels </label>
       {/* <input type="text" /> */}
       <select>
-        <option> Refridgerate </option>
-        <option>Shake well </option>
+        {label1.map((label, index) => (
+          <option key={index}> {label}</option>
+        ))}
       </select>
     </div>
   );
