@@ -2,7 +2,7 @@
 
 import Navbar from "./Navbar";
 import { useState } from "react";
-import { Dropdown } from "flowbite-react";
+import Select from "react-select";
 
 interface Ingredient {
   id: number;
@@ -16,15 +16,16 @@ interface Step {
   step: string;
 }
 
-interface Labels {
+interface Label {
   id: number;
   label: string;
 }
 
-interface LabelsListProp {
-  labels: Array<Labels>;
+interface LabelListProp {
+  labels: Array<Label>;
   setLabels: Function;
 }
+
 const testItems = [
   {
     id: 1,
@@ -37,6 +38,10 @@ const testItems = [
 ];
 
 const labels = [
+  {
+    id: 0,
+    label: "Select Labels",
+  },
   {
     id: 1,
     label: "Do not chew or crush",
@@ -88,7 +93,62 @@ const labels = [
   { id: 13, label: "May cause urine discoloration" },
 ];
 
+const options = [
+  {
+    value: "do not chew or crush",
+    label: "Do not chew or crush",
+  },
+  {
+    value: "swallow whole",
+    label: "Swallow whole",
+  },
+  {
+    value: "take with food",
+    label: "Take with food",
+  },
+  {
+    value: "for rectal use only",
+    label: "For rectal use only",
+  },
+  {
+    value: "shake well before use",
+    label: "Shake well before use",
+  },
+  {
+    value: "for external use only",
+    label: "For external use only",
+  },
+  {
+    value: "may cause drowsiness",
+    label: "May cause drowsiness",
+  },
+  {
+    value: "protect from sunlight",
+    label: "Protect from sunlight",
+  },
+  {
+    value: "take on an empty stomach",
+    label: "Take on an empty stomach",
+  },
+  {
+    value: "keep refrigerated",
+    label: "Keep refrigerated",
+  },
+  {
+    value: "for the eye only",
+    label: "For the eye only",
+  },
+  {
+    value: "fr the ear only",
+    label: "For the ear only",
+  },
+  {
+    value: "may cause urine discoloration",
+    label: "May cause urine discoloration",
+  },
+];
 const label1 = [
+  "Select Label",
   "Do not chew or crush",
   "Swallow whole",
   "Take with food",
@@ -107,6 +167,8 @@ export default function Home() {
   const [items, setItems] = useState([]);
   const [title, setTitle] = useState("");
   const [preparations, setPreparations] = useState([]);
+  //const [labels, setLabels] = useState([]);
+  // const [selectedOptions, setSelectedOptions] = useState([]);
 
   return (
     <div>
@@ -119,6 +181,7 @@ export default function Home() {
           setPreparations={setPreparations}
         />
         <AuxiliaryLabels />
+        {/* <AuxiliaryLabels labels={labels} setLabels={setLabels} /> */}
         <Storage />
         <Expiration />
         <SpecialNote />
@@ -197,7 +260,6 @@ function IngredientList(props: IngredientListProps) {
 
     const newIngredient = { quantity, unit, name, id: Date.now() };
     console.log(newIngredient);
-
     // midori wins!!
     props.setItems([...props.ingredients, newIngredient]);
 
@@ -226,7 +288,6 @@ function IngredientList(props: IngredientListProps) {
         <div className="flex flex-col gap-2">
           {props.ingredients.map((item: Ingredient) => (
             <div key={item.id} className="flex flex-row items-center gap-2">
-              {" "}
               {item.quantity} {item.unit} {item.name}
               <button
                 type="button"
@@ -297,7 +358,6 @@ function IngredientList(props: IngredientListProps) {
               onClick={handleAdd}
               className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
             >
-              {" "}
               ➕ Add
             </button>
           </div>
@@ -408,19 +468,84 @@ function PreparationSteps(props: PreparationListProps) {
 }
 
 function AuxiliaryLabels() {
+  const [selectedOptions, setSelectedOptions] = useState("");
+  const [selectedLabels, setSelectedLabels] = useState<Array<string>>([]);
+  //const [isDropDownDisplayed, setIsDropDownDisplayed] = useState(false);
+
+  const newLabel = { id: Date.now(), selectedOptions };
+  console.log(newLabel);
+
+  //  setSelectedLabels([...labels, newLabel]);
+
+  //   setStep("");
+  // }
+
+  // function handleAddStep(event: any) {
+  //   event.preventDefault();
+
+  //   if (!step) return;
+
+  //   const newStep = { id: Date.now(), step };
+  //   console.log(newStep);
+
+  //   props.setPreparations([...props.preparations, newStep]);
+
+  //   setStep("");
+  // }
+
+  // function handleDeleteStep(stepId: number) {
+  //   props.setPreparations(props.preparations.filter((s) => s.id !== stepId));
+  // }
+
+  //selectedOption === !selectedLabels ? setSelectedLabels([...selectedLabels, event.target.value]) : return
+
+  // function handleAddLabel(label:string, index:number, event:any ){
+  //   event.preventDefault();
+
+  //   setSelectedLabels([...selectedLabels, event.target.value])
+
+  //   setSelectedLabels(selectedLabels.map(labels =>{
+  //     if(label1
+  //   }))
+  // }
+
   return (
-    <div className="flex items-center gap-2 py-6">
-      <label>🏷️ Auxiliary Labels </label>
-      {/* <input type="text" /> */}
-      <select>
-        {label1.map((label, index) => (
-          <option key={index}> {label}</option>
-        ))}
-      </select>
+    <div className="flex flex-col gap-4">
+      <div>
+        {selectedLabels.map((l) => {
+          return <div>{l}</div>;
+        })}
+      </div>
+      <div className="flex items-center gap-2 py-6">
+        <label>🏷️ Auxiliary Labels </label>
+
+        <select
+          value={selectedOptions}
+          onChange={(e) => {
+            setSelectedLabels([...selectedLabels, e.target.value]);
+          }}
+        >
+          {label1.map((label, index) => (
+            <option key={index} value={label}>
+              {label}
+            </option>
+          ))}
+        </select>
+        <div> You selected: {selectedOptions} </div>
+      </div>
     </div>
   );
 }
 
+//setselectedLabels.map( selectedLabels)=> (label1.id !== selectedLabels) ? setSelectedLabels([...selectedLabels, e.target.value]) : return
+// value={`${selectedLabels}`}
+// onChange={(e) =>
+//   setSelectedLabels({ ...selectedLabels, labels: e.target.value })
+// }// check before add
+
+//onClick={()=> setIsDropDownDisplayed((prevState)=> !prevState)}
+//{isDropDownDisplayed ? (<option value="select label"> Select Label </option>) : }
+//{!isDropDownDisplayed && }
 function Storage() {
   const [selectedStorage, setSelectedStorage] = useState("");
 
