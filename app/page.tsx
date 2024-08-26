@@ -37,61 +37,61 @@ const testItems = [
   { id: 3, quantity: 40, unit: "ml", name: "Diphenhydramine" },
 ];
 
-const labels = [
-  {
-    id: 0,
-    label: "Select Labels",
-  },
-  {
-    id: 1,
-    label: "Do not chew or crush",
-  },
-  {
-    id: 2,
-    label: "Swallow whole",
-  },
-  {
-    id: 3,
-    label: "Take with food",
-  },
-  {
-    id: 4,
-    label: "For rectal use only",
-  },
-  {
-    id: 5,
-    label: "Shake well before use",
-  },
-  {
-    id: 6,
-    label: "For external use only",
-  },
-  {
-    id: 7,
-    label: "May cause drowsiness",
-  },
-  {
-    id: 8,
-    label: "Protect from sunlight",
-  },
-  {
-    id: 9,
-    label: "Take on an empty stomach",
-  },
-  {
-    id: 10,
-    label: "Keep refrigerated",
-  },
-  {
-    id: 11,
-    label: "For the eye only",
-  },
-  {
-    id: 12,
-    label: "For the ear only",
-  },
-  { id: 13, label: "May cause urine discoloration" },
-];
+// const labels = [
+//   {
+//     id: 0,
+//     label: "Select Labels",
+//   },
+//   {
+//     id: 1,
+//     label: "Do not chew or crush",
+//   },
+//   {
+//     id: 2,
+//     label: "Swallow whole",
+//   },
+//   {
+//     id: 3,
+//     label: "Take with food",
+//   },
+//   {
+//     id: 4,
+//     label: "For rectal use only",
+//   },
+//   {
+//     id: 5,
+//     label: "Shake well before use",
+//   },
+//   {
+//     id: 6,
+//     label: "For external use only",
+//   },
+//   {
+//     id: 7,
+//     label: "May cause drowsiness",
+//   },
+//   {
+//     id: 8,
+//     label: "Protect from sunlight",
+//   },
+//   {
+//     id: 9,
+//     label: "Take on an empty stomach",
+//   },
+//   {
+//     id: 10,
+//     label: "Keep refrigerated",
+//   },
+//   {
+//     id: 11,
+//     label: "For the eye only",
+//   },
+//   {
+//     id: 12,
+//     label: "For the ear only",
+//   },
+//   { id: 13, label: "May cause urine discoloration" },
+// ];
 
 const options = [
   {
@@ -147,7 +147,7 @@ const options = [
     label: "May cause urine discoloration",
   },
 ];
-const label1 = [
+const labels = [
   "Select Label",
   "Do not chew or crush",
   "Swallow whole",
@@ -167,8 +167,6 @@ export default function Home() {
   const [items, setItems] = useState([]);
   const [title, setTitle] = useState("");
   const [preparations, setPreparations] = useState([]);
-  //const [labels, setLabels] = useState([]);
-  // const [selectedOptions, setSelectedOptions] = useState([]);
 
   return (
     <div>
@@ -470,82 +468,39 @@ function PreparationSteps(props: PreparationListProps) {
 function AuxiliaryLabels() {
   const [selectedOptions, setSelectedOptions] = useState("");
   const [selectedLabels, setSelectedLabels] = useState<Array<string>>([]);
-  //const [isDropDownDisplayed, setIsDropDownDisplayed] = useState(false);
 
   const newLabel = { id: Date.now(), selectedOptions };
   console.log(newLabel);
 
-  //  setSelectedLabels([...labels, newLabel]);
-
-  //   setStep("");
-  // }
-
-  // function handleAddStep(event: any) {
-  //   event.preventDefault();
-
-  //   if (!step) return;
-
-  //   const newStep = { id: Date.now(), step };
-  //   console.log(newStep);
-
-  //   props.setPreparations([...props.preparations, newStep]);
-
-  //   setStep("");
-  // }
-
-  // function handleDeleteStep(stepId: number) {
-  //   props.setPreparations(props.preparations.filter((s) => s.id !== stepId));
-  // }
-
-  //selectedOption === !selectedLabels ? setSelectedLabels([...selectedLabels, event.target.value]) : return
-
-  // function handleAddLabel(label:string, index:number, event:any ){
-  //   event.preventDefault();
-
-  //   setSelectedLabels([...selectedLabels, event.target.value])
-
-  //   setSelectedLabels(selectedLabels.map(labels =>{
-  //     if(label1
-  //   }))
-  // }
-
   return (
     <div className="flex flex-col gap-4">
+      <h1>🏷️ Auxiliary Labels </h1>
       <div>
         {selectedLabels.map((l) => {
           return <div>{l}</div>;
         })}
       </div>
       <div className="flex items-center gap-2 py-6">
-        <label>🏷️ Auxiliary Labels </label>
-
         <select
           value={selectedOptions}
           onChange={(e) => {
+            if (selectedLabels.includes(e.target.value)) {
+              return;
+            }
             setSelectedLabels([...selectedLabels, e.target.value]);
           }}
         >
-          {label1.map((label, index) => (
+          {labels.map((label, index) => (
             <option key={index} value={label}>
               {label}
             </option>
           ))}
         </select>
-        <div> You selected: {selectedOptions} </div>
       </div>
     </div>
   );
 }
 
-//setselectedLabels.map( selectedLabels)=> (label1.id !== selectedLabels) ? setSelectedLabels([...selectedLabels, e.target.value]) : return
-// value={`${selectedLabels}`}
-// onChange={(e) =>
-//   setSelectedLabels({ ...selectedLabels, labels: e.target.value })
-// }// check before add
-
-//onClick={()=> setIsDropDownDisplayed((prevState)=> !prevState)}
-//{isDropDownDisplayed ? (<option value="select label"> Select Label </option>) : }
-//{!isDropDownDisplayed && }
 function Storage() {
   const [selectedStorage, setSelectedStorage] = useState("");
 
@@ -556,6 +511,7 @@ function Storage() {
         value={selectedStorage}
         onChange={(e) => setSelectedStorage(e.target.value)}
       >
+        <option> Select Storage Condition</option>
         <option> Refrigeration </option>
         <option> Room Temperature </option>
         <option> Other</option>
