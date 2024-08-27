@@ -179,7 +179,6 @@ export default function Home() {
           setPreparations={setPreparations}
         />
         <AuxiliaryLabels />
-        {/* <AuxiliaryLabels labels={labels} setLabels={setLabels} /> */}
         <Storage />
         <Expiration />
         <SpecialNote />
@@ -469,15 +468,46 @@ function AuxiliaryLabels() {
   const [selectedOptions, setSelectedOptions] = useState("");
   const [selectedLabels, setSelectedLabels] = useState<Array<string>>([]);
 
-  const newLabel = { id: Date.now(), selectedOptions };
-  console.log(newLabel);
+  // const newLabel = { id: Date.now(), selectedOptions };
+  // console.log(newLabel);
 
+  // function handleDeleteStep(stepId: number) {
+  //   props.setPreparations(props.preparations.filter((s) => s.id !== stepId));
+  // }
+
+  function handleDeleteLabel(value: string) {
+    setSelectedLabels(selectedLabels.filter((l) => l !== value));
+  }
+  // <button
+  //               type="button"
+  //               onClick={() => {
+  //                 handleDeleteStep(index);
+  //               }}
+  //               className="me-2rounded-full m-1 border border-gray-200 bg-white px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+  //             >
+  //               ❌
+  //             </button>
   return (
     <div className="flex flex-col gap-4">
-      <h1>🏷️ Auxiliary Labels </h1>
+      <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        🏷️ Auxiliary Labels
+      </h5>
       <div>
         {selectedLabels.map((l) => {
-          return <div>{l}</div>;
+          return (
+            <div>
+              {l}
+              <button
+                type="button"
+                onClick={() => {
+                  handleDeleteLabel(l);
+                }}
+                className="me-2rounded-full m-1 border border-gray-200 bg-white px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+              >
+                ❌
+              </button>
+            </div>
+          );
         })}
       </div>
       <div className="flex items-center gap-2 py-6">
@@ -505,19 +535,24 @@ function Storage() {
   const [selectedStorage, setSelectedStorage] = useState("");
 
   return (
-    <div className="flex items-center gap-2 py-6">
-      <label>🏠 Storage Conditions</label>
-      <select
-        value={selectedStorage}
-        onChange={(e) => setSelectedStorage(e.target.value)}
-      >
-        <option> Select Storage Condition</option>
-        <option> Refrigeration </option>
-        <option> Room Temperature </option>
-        <option> Other</option>
-      </select>
+    <div className="flex flex-col gap-4">
+      <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        🏠 Storage Conditions
+      </h5>
 
-      <div> You selected: {selectedStorage}</div>
+      <div className="flex items-center gap-2 py-6">
+        <select
+          value={selectedStorage}
+          onChange={(e) => setSelectedStorage(e.target.value)}
+        >
+          <option selected> Select Storage Condition</option>
+          <option> Refrigeration </option>
+          <option> Room Temperature </option>
+          <option> Other</option>
+        </select>
+
+        <div> You selected: {selectedStorage}</div>
+      </div>
     </div>
   );
 }
@@ -525,6 +560,10 @@ function Storage() {
 function Expiration() {
   return (
     <div>
+      <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        {" "}
+        ⌛️ Expiration Date
+      </h5>
       <label> ⌛️ Expiration Date </label>
     </div>
   );
@@ -533,7 +572,10 @@ function Expiration() {
 function SpecialNote() {
   return (
     <div>
-      <label> 📝 Special Notes</label>
+      <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        📝 Special Notes
+      </h5>
+      <label> </label>
       <input type="text" />
     </div>
   );
