@@ -93,60 +93,60 @@ const testItems = [
 //   { id: 13, label: "May cause urine discoloration" },
 // ];
 
-const options = [
-  {
-    value: "do not chew or crush",
-    label: "Do not chew or crush",
-  },
-  {
-    value: "swallow whole",
-    label: "Swallow whole",
-  },
-  {
-    value: "take with food",
-    label: "Take with food",
-  },
-  {
-    value: "for rectal use only",
-    label: "For rectal use only",
-  },
-  {
-    value: "shake well before use",
-    label: "Shake well before use",
-  },
-  {
-    value: "for external use only",
-    label: "For external use only",
-  },
-  {
-    value: "may cause drowsiness",
-    label: "May cause drowsiness",
-  },
-  {
-    value: "protect from sunlight",
-    label: "Protect from sunlight",
-  },
-  {
-    value: "take on an empty stomach",
-    label: "Take on an empty stomach",
-  },
-  {
-    value: "keep refrigerated",
-    label: "Keep refrigerated",
-  },
-  {
-    value: "for the eye only",
-    label: "For the eye only",
-  },
-  {
-    value: "fr the ear only",
-    label: "For the ear only",
-  },
-  {
-    value: "may cause urine discoloration",
-    label: "May cause urine discoloration",
-  },
-];
+// const options = [
+//   {
+//     value: "do not chew or crush",
+//     label: "Do not chew or crush",
+//   },
+//   {
+//     value: "swallow whole",
+//     label: "Swallow whole",
+//   },
+//   {
+//     value: "take with food",
+//     label: "Take with food",
+//   },
+//   {
+//     value: "for rectal use only",
+//     label: "For rectal use only",
+//   },
+//   {
+//     value: "shake well before use",
+//     label: "Shake well before use",
+//   },
+//   {
+//     value: "for external use only",
+//     label: "For external use only",
+//   },
+//   {
+//     value: "may cause drowsiness",
+//     label: "May cause drowsiness",
+//   },
+//   {
+//     value: "protect from sunlight",
+//     label: "Protect from sunlight",
+//   },
+//   {
+//     value: "take on an empty stomach",
+//     label: "Take on an empty stomach",
+//   },
+//   {
+//     value: "keep refrigerated",
+//     label: "Keep refrigerated",
+//   },
+//   {
+//     value: "for the eye only",
+//     label: "For the eye only",
+//   },
+//   {
+//     value: "fr the ear only",
+//     label: "For the ear only",
+//   },
+//   {
+//     value: "may cause urine discoloration",
+//     label: "May cause urine discoloration",
+//   },
+// ];
 const labels = [
   "Select Label",
   "Do not chew or crush",
@@ -163,10 +163,25 @@ const labels = [
   "For the ear only",
   "May cause urine discoloration",
 ];
+
+const button = ({ children, onClick }) => {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+    >
+      {children}
+    </button>
+  );
+};
+
 export default function Home() {
   const [items, setItems] = useState([]);
   const [title, setTitle] = useState("");
   const [preparations, setPreparations] = useState([]);
+  const [expiration, setExpiration] = useState("");
+  const [special, setSpecial] = useState("");
 
   return (
     <div>
@@ -180,17 +195,27 @@ export default function Home() {
         />
         <AuxiliaryLabels />
         <Storage />
-        <Expiration />
-        <SpecialNote />
+        <Expiration expiration={expiration} setExpiration={setExpiration} />
+        <SpecialNote special={special} setSpecial={setSpecial} />
       </div>
     </div>
   );
 }
 
+interface SpecialNoteProps {
+  special: string;
+  setSpecial: Function;
+}
+
+interface ExpirationDateProps {
+  expiration: string;
+  setExpiration: Function;
+}
 interface Titleprops {
   title: string;
   setTitle: Function;
 }
+
 function Title(props: Titleprops) {
   const [editMode, setEditMode] = useState(true);
 
@@ -214,7 +239,7 @@ function Title(props: Titleprops) {
         <input
           type="text"
           id="title_input"
-          placeholder="Add compound name"
+          placeholder="Compound Title"
           value={props.title}
           onChange={(event) => props.setTitle(event.target.value)}
         />
@@ -268,10 +293,7 @@ function IngredientList(props: IngredientListProps) {
 
   function handleDelete(itemId: number) {
     console.log("iv been deleted", itemId);
-    // Find the matching ingredient and remove from state
-    // setArtists(
-    //   artists.filter(a => a.id !== artist.id)
-    // );
+
     props.setItems(props.ingredients.filter((i) => i.id !== itemId));
   }
 
@@ -478,15 +500,7 @@ function AuxiliaryLabels() {
   function handleDeleteLabel(value: string) {
     setSelectedLabels(selectedLabels.filter((l) => l !== value));
   }
-  // <button
-  //               type="button"
-  //               onClick={() => {
-  //                 handleDeleteStep(index);
-  //               }}
-  //               className="me-2rounded-full m-1 border border-gray-200 bg-white px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-  //             >
-  //               ❌
-  //             </button>
+
   return (
     <div className="flex flex-col gap-4">
       <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -534,12 +548,31 @@ function AuxiliaryLabels() {
 function Storage() {
   const [selectedStorage, setSelectedStorage] = useState("");
 
+  // function handleDeleteStorage(value: string) {
+  //   setSelectedStorage(selectedStorage.filter((s) => s !== value));
+  // }
+
   return (
     <div className="flex flex-col gap-4">
       <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         🏠 Storage Conditions
       </h5>
-
+      <div> You selected: {selectedStorage}</div>
+      {/* <div>
+        {selectedLabels.map((l) => {
+          return (
+            <div>
+              {l}
+              <button
+                type="button"
+                onClick={() => {
+                  handleDeleteLabel(l);
+                }}
+                className="me-2rounded-full m-1 border border-gray-200 bg-white px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+              >
+                ❌
+              </button>
+            </div> */}
       <div className="flex items-center gap-2 py-6">
         <select
           value={selectedStorage}
@@ -550,33 +583,69 @@ function Storage() {
           <option> Room Temperature </option>
           <option> Other</option>
         </select>
-
-        <div> You selected: {selectedStorage}</div>
       </div>
     </div>
   );
 }
 
-function Expiration() {
+function Expiration(props: ExpirationDateProps) {
+  // const [editMode, setEditMode] = useState(true);
+
+  // function onSave() {
+  //   if (!props.title) return;
+  //   setEditMode(false);
+  // }
+
+  // function onEdit() {
+  //   setEditMode(true);
+  // }
+
+  function AddExpiration() {
+    if (!props.expiration) return;
+  }
   return (
     <div>
       <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        {" "}
         ⌛️ Expiration Date
       </h5>
-      <label> ⌛️ Expiration Date </label>
+      <div> {props.expiration}</div>
+      <input
+        type="text"
+        id="expiration_input"
+        placeholder="Expiration Date"
+        value={props.expiration}
+        onChange={(e) => props.setExpiration(e.target.value)}
+      />
+      <button
+        type="button"
+        className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+      >
+        ✅ Save
+      </button>
     </div>
   );
 }
 
-function SpecialNote() {
+function SpecialNote(props: SpecialNoteProps) {
   return (
     <div>
       <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         📝 Special Notes
       </h5>
-      <label> </label>
-      <input type="text" />
+
+      <input
+        type="text"
+        id="special_input"
+        placeholder="Add special notes"
+        value={props.special}
+        onChange={(e) => props.setSpecial(e.target.value)}
+      />
+      <button
+        type="button"
+        className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+      >
+        ✅ Save
+      </button>
     </div>
   );
 }
