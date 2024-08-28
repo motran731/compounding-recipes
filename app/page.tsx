@@ -458,16 +458,6 @@ function PreparationSteps(props: PreparationListProps) {
               >
                 ✏️ Edit
               </button>
-
-              {/* <button
-                type="button"
-                onClick={() => {
-                  handleDeleteStep(step.id);
-                }}
-                className="me-2rounded-full m-1 border border-gray-200 bg-white px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-              >
-                ❌
-              </button> */}
               <Button
                 onClick={() => {
                   handleDeleteStep(step.id);
@@ -509,13 +499,6 @@ function AuxiliaryLabels() {
   const [selectedOptions, setSelectedOptions] = useState("");
   const [selectedLabels, setSelectedLabels] = useState<Array<string>>([]);
 
-  // const newLabel = { id: Date.now(), selectedOptions };
-  // console.log(newLabel);
-
-  // function handleDeleteStep(stepId: number) {
-  //   props.setPreparations(props.preparations.filter((s) => s.id !== stepId));
-  // }
-
   function handleDeleteLabel(value: string) {
     setSelectedLabels(selectedLabels.filter((l) => l !== value));
   }
@@ -530,15 +513,13 @@ function AuxiliaryLabels() {
           return (
             <div>
               {l}
-              <button
-                type="button"
+              <Button
                 onClick={() => {
                   handleDeleteLabel(l);
                 }}
-                className="me-2rounded-full m-1 border border-gray-200 bg-white px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
               >
                 ❌
-              </button>
+              </Button>
             </div>
           );
         })}
@@ -635,12 +616,7 @@ function Expiration(props: ExpirationDateProps) {
         value={props.expiration}
         onChange={(e) => props.setExpiration(e.target.value)}
       />
-      <button
-        type="button"
-        className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-      >
-        ✅ Save
-      </button>
+      <Button> ✅ Save </Button>
     </div>
   );
 }
