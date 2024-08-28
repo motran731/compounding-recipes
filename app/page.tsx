@@ -164,17 +164,29 @@ const labels = [
   "May cause urine discoloration",
 ];
 
-const button = ({ children, onClick }) => {
+// const button = ({ children, onClick }) => {
+//   return (
+//     <button
+//       type="button"
+//       onClick={onClick}
+//       className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+//     >
+//       {children}
+//     </button>
+//   );
+// };
+
+function Button({ children, onClick }: { children: any; onClick?: any }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+      className="me-2rounded-full m-1 border border-gray-200 bg-white px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
     >
       {children}
     </button>
   );
-};
+}
 
 export default function Home() {
   const [items, setItems] = useState([]);
@@ -447,7 +459,7 @@ function PreparationSteps(props: PreparationListProps) {
                 ✏️ Edit
               </button>
 
-              <button
+              {/* <button
                 type="button"
                 onClick={() => {
                   handleDeleteStep(step.id);
@@ -455,7 +467,14 @@ function PreparationSteps(props: PreparationListProps) {
                 className="me-2rounded-full m-1 border border-gray-200 bg-white px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
               >
                 ❌
-              </button>
+              </button> */}
+              <Button
+                onClick={() => {
+                  handleDeleteStep(step.id);
+                }}
+              >
+                ❌
+              </Button>
             </div>
           ))}
         </div>
@@ -640,12 +659,7 @@ function SpecialNote(props: SpecialNoteProps) {
         value={props.special}
         onChange={(e) => props.setSpecial(e.target.value)}
       />
-      <button
-        type="button"
-        className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-      >
-        ✅ Save
-      </button>
+      <Button> ✅ Save </Button>
     </div>
   );
 }
