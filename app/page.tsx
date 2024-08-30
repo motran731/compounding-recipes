@@ -164,25 +164,28 @@ const labels = [
   "May cause urine discoloration",
 ];
 
-// const button = ({ children, onClick }) => {
-//   return (
-//     <button
-//       type="button"
-//       onClick={onClick}
-//       className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-//     >
-//       {children}
-//     </button>
-//   );
-// };
+//margin
+// mb-2 me-2 rounded-full  - round
+//m-1 me-2 rounded-full border - square
+//className={` ${margin} border-gray-200 bg-white px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700`}
 
-function Button({ children, onClick }: { children: any; onClick?: any }) {
+const buttonDelete =
+  "me-2rounded-full m-1 border border-gray-200 bg-white px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700";
+
+const buttonAdd =
+  "mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700";
+
+function Button({
+  className,
+  children,
+  onClick,
+}: {
+  className?: string;
+  children?: any;
+  onClick?: any;
+}) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="me-2rounded-full m-1 border border-gray-200 bg-white px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-    >
+    <button type="button" onClick={onClick} className={`${className}`}>
       {children}
     </button>
   );
@@ -268,14 +271,11 @@ function Title(props: Titleprops) {
 
       {!editMode && (
         <>
-          <button
-            type="button"
-            onClick={onEdit}
-            className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-          >
+          <Button className={buttonAdd} onClick={onEdit}>
+            {" "}
             ✏️ Edit
-          </button>
-          <Button> ✅ Save</Button>
+          </Button>
+          <Button className={buttonAdd}> ✅ Save</Button>
         </>
       )}
     </div>
@@ -323,15 +323,14 @@ function IngredientList(props: IngredientListProps) {
           {props.ingredients.map((item: Ingredient) => (
             <div key={item.id} className="flex flex-row items-center gap-2">
               {item.quantity} {item.unit} {item.name}
-              <button
-                type="button"
+              <Button
+                className={buttonDelete}
                 onClick={() => {
                   handleDelete(item.id);
                 }}
-                className="me-2rounded-full m-1 border border-gray-200 bg-white px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
               >
-                ❌
-              </button>
+                ❌{" "}
+              </Button>
             </div>
           ))}
         </div>
@@ -517,6 +516,7 @@ function AuxiliaryLabels() {
             <div>
               {l}
               <Button
+                className={buttonDelete}
                 onClick={() => {
                   handleDeleteLabel(l);
                 }}
@@ -592,7 +592,7 @@ function Storage() {
 }
 
 function Expiration(props: ExpirationDateProps) {
-  // const [editMode, setEditMode] = useState(true);
+  const [editMode, setEditMode] = useState(true);
 
   // function onSave() {
   //   if (!props.title) return;
@@ -619,7 +619,7 @@ function Expiration(props: ExpirationDateProps) {
         value={props.expiration}
         onChange={(e) => props.setExpiration(e.target.value)}
       />
-      <Button> ✅ Save </Button>
+      <Button className={buttonAdd}> ✅ Save </Button>
     </div>
   );
 }
@@ -638,7 +638,7 @@ function SpecialNote(props: SpecialNoteProps) {
         value={props.special}
         onChange={(e) => props.setSpecial(e.target.value)}
       />
-      <Button> ✅ Save </Button>
+      <Button className={buttonAdd}> ✅ Save </Button>
     </div>
   );
 }
