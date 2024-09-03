@@ -222,10 +222,6 @@ interface SpecialNoteProps {
   setSpecial: Function;
 }
 
-interface ExpirationDateProps {
-  expiration: string;
-  setExpiration: Function;
-}
 interface Titleprops {
   title: string;
   setTitle: Function;
@@ -265,17 +261,15 @@ function Title(props: Titleprops) {
           onClick={onSave}
           className="mb-2 me-2 rounded-full border border-gray-200 bg-white p-4 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
         >
-          ➕ Add
+          ✅ Save
         </button>
       )}
 
       {!editMode && (
         <>
           <Button className={buttonAdd} onClick={onEdit}>
-            {" "}
             ✏️ Edit
           </Button>
-          <Button className={buttonAdd}> ✅ Save</Button>
         </>
       )}
     </div>
@@ -548,6 +542,52 @@ function AuxiliaryLabels() {
   );
 }
 
+interface ExpirationDateProps {
+  expiration: string;
+  setExpiration: Function;
+}
+function Expiration(props: ExpirationDateProps) {
+  // const [step, setStep] = useState("");
+
+  // function handleAddStep(event: any) {
+  //   event.preventDefault();
+
+  //   if (!step) return;
+
+  //   const newStep = { id: Date.now(), step };
+  //   console.log(newStep);
+
+  //   props.setPreparations([...props.preparations, newStep]);
+
+  //   setStep("");
+  // }
+  function AddExpiration(event: any) {
+    event.preventDefault();
+    if (!props.expiration) return;
+
+    props.setExpiration("");
+  }
+
+  return (
+    <div>
+      <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        ⌛️ Expiration Date
+      </h5>
+      <div> {props.expiration}</div>
+      <input
+        type="text"
+        id="expiration_input"
+        placeholder="Expiration Date"
+        value={props.expiration}
+        onChange={(e) => props.setExpiration(e.target.value)}
+      />
+      <Button className={buttonAdd} onClick={AddExpiration}>
+        ✅ Save
+      </Button>
+    </div>
+  );
+}
+
 function Storage() {
   const [selectedStorage, setSelectedStorage] = useState("");
 
@@ -587,39 +627,6 @@ function Storage() {
           <option> Other</option>
         </select>
       </div>
-    </div>
-  );
-}
-
-function Expiration(props: ExpirationDateProps) {
-  const [editMode, setEditMode] = useState(true);
-
-  // function onSave() {
-  //   if (!props.title) return;
-  //   setEditMode(false);
-  // }
-
-  // function onEdit() {
-  //   setEditMode(true);
-  // }
-
-  function AddExpiration() {
-    if (!props.expiration) return;
-  }
-  return (
-    <div>
-      <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        ⌛️ Expiration Date
-      </h5>
-      <div> {props.expiration}</div>
-      <input
-        type="text"
-        id="expiration_input"
-        placeholder="Expiration Date"
-        value={props.expiration}
-        onChange={(e) => props.setExpiration(e.target.value)}
-      />
-      <Button className={buttonAdd}> ✅ Save </Button>
     </div>
   );
 }
