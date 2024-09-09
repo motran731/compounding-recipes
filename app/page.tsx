@@ -547,25 +547,15 @@ interface ExpirationDateProps {
   setExpiration: Function;
 }
 function Expiration(props: ExpirationDateProps) {
-  // const [step, setStep] = useState("");
+  const [editMode, setEditMode] = useState(true);
 
-  // function handleAddStep(event: any) {
-  //   event.preventDefault();
-
-  //   if (!step) return;
-
-  //   const newStep = { id: Date.now(), step };
-  //   console.log(newStep);
-
-  //   props.setPreparations([...props.preparations, newStep]);
-
-  //   setStep("");
-  // }
-  function AddExpiration(event: any) {
-    event.preventDefault();
+  function onSave() {
     if (!props.expiration) return;
+    setEditMode(false);
+  }
 
-    props.setExpiration("");
+  function onEdit() {
+    setEditMode(true);
   }
 
   return (
@@ -573,17 +563,35 @@ function Expiration(props: ExpirationDateProps) {
       <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         ⌛️ Expiration Date
       </h5>
-      <div> {props.expiration}</div>
-      <input
-        type="text"
-        id="expiration_input"
-        placeholder="Expiration Date"
-        value={props.expiration}
-        onChange={(e) => props.setExpiration(e.target.value)}
-      />
-      <Button className={buttonAdd} onClick={AddExpiration}>
-        ✅ Save
-      </Button>
+      <div className="title flex flex-row gap-2">
+        {!editMode && (
+          <h1 className="mb-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {props.expiration}
+          </h1>
+        )}
+        {editMode && (
+          <input
+            type="text"
+            id="expiration_input"
+            placeholder="Expiration Date"
+            value={props.expiration}
+            onChange={(e) => props.setExpiration(e.target.value)}
+          />
+        )}
+        {editMode && (
+          <Button className={buttonAdd} onClick={onSave}>
+            ✅ Save
+          </Button>
+        )}
+
+        {!editMode && (
+          <>
+            <Button className={buttonAdd} onClick={onEdit}>
+              ✏️ Edit
+            </Button>
+          </>
+        )}
+      </div>
     </div>
   );
 }
@@ -632,20 +640,52 @@ function Storage() {
 }
 
 function SpecialNote(props: SpecialNoteProps) {
+  const [editMode, setEditMode] = useState(true);
+
+  function onSave() {
+    if (!props.special) return;
+    setEditMode(false);
+  }
+
+  function onEdit() {
+    setEditMode(true);
+  }
+
   return (
     <div>
       <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         📝 Special Notes
       </h5>
+      <div className="title flex flex-row gap-2">
+        {!editMode && (
+          <h1 className="mb-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {props.special}
+          </h1>
+        )}
+        {editMode && (
+          <input
+            type="text"
+            id="special_input"
+            placeholder="Add special notes"
+            value={props.special}
+            onChange={(e) => props.setSpecial(e.target.value)}
+          />
+        )}
+        {editMode && (
+          <Button className={buttonAdd} onClick={onSave}>
+            {" "}
+            ✅ Save{" "}
+          </Button>
+        )}
 
-      <input
-        type="text"
-        id="special_input"
-        placeholder="Add special notes"
-        value={props.special}
-        onChange={(e) => props.setSpecial(e.target.value)}
-      />
-      <Button className={buttonAdd}> ✅ Save </Button>
+        {!editMode && (
+          <>
+            <Button className={buttonAdd} onClick={onEdit}>
+              ✏️ Edit
+            </Button>
+          </>
+        )}
+      </div>
     </div>
   );
 }
